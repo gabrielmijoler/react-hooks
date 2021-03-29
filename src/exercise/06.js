@@ -6,10 +6,40 @@ import * as React from 'react'
 // fetchPokemon: the function we call to get the pokemon info
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
 // PokemonDataView: the stuff we use to display the pokemon info
-import {PokemonForm} from '../pokemon'
+import {PokemonForm, fetchPokemon, PokemonInfoFallback,PokemonDataView } from '../pokemon'
 
 function PokemonInfo({pokemonName}) {
   // 🐨 Have state for the pokemon (null)
+  const [pokemon, serpokemon] = usestate(null)
+
+  React.useEffect(()=> {
+    // sem pokemonname, nao fazemos nada
+    if(pokemonName === '') return 
+    // limpando dados pokemon
+    setPokemon(null)
+    // fetchpokemon eh uma funcao assincrona
+    fetchPokemon(pokemonName).then(
+        data => setPokemon(data)
+    )
+
+  })
+  
+  async function fetchPokemon(){
+      try{
+          // chamada principal da chamada
+          let data = await fetchPokemon(pokemonName) // camada assicrona
+          setPokemon(data)
+      }
+      catch (erro){
+          alert(erro.message)
+      } 
+  }
+// chamada a funcao
+  getPokemon()
+},[pokemon])
+
+
+
   // 🐨 use React.useEffect where the callback should be called whenever the
   // pokemon name changes.
   // 💰 DON'T FORGET THE DEPENDENCIES ARRAY!
