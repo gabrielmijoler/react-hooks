@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-bt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercício de Fixação 3</title>
+  <style>
+    label {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+
+  <script type="text/babel">
+
+    /* Converta a função abaixo em um componente. */
+    function inputSet({id, labelText, onInputChange, ...props}) {
+      return (
+        <div>
+          <label htmlFor={props.id}>{props.labelText}</label>
+          <input id={id} type="number" onChange={props.onInputChange} />
+        </div>
+      )
+    }
+
+    /* Converta esta função em um componente */
+    function result(imc, classif) {
+      return (
+        <>
+          <div htmlFor={prosp.imc}>{imc}</div>
+          <div className="result">{classif}</div>
+        </>
+      )     
+    }
+
+    function Form() {
+        const(estadoPeso, estadoAltura, estadoClassif, estadoImc)
+
+
+      /* Crie as seguintes variáveis de estado:
+         * peso
+         * altura
+         * classif
+         * imc
+      */
+
+      function handleInputChange(event) {
+        /* Faça as modificações necessárias na manipulação das variáveis de estado
+           nas linhas abaixo. */
+        if(event.target.id === 'peso') estadoPeso = event.target.value
+        else if(event.target.id === 'altura') estadoAltura = event.target.value
+      }
+
+      /* Use o código a seguir dentro da função seguinte em um useEffect() tendo
+        como dependências as variáveis de estado estadoPeso e estadoAltura.
+        Faça as modificações necessárias na manipulação das variáveis de estado
+        para que o código funcione. 
+      */
+      
+      // Início do código para useEffect()
+        React.useEffect(()=>{ 
+        if(isNaN(estadoPeso) || isNaN(estadoAltura)) estadoImc = '---'
+        else estadoImc = estadoPeso / estadoAltura ** 2
+
+        if(estadoImc < 18.5) 
+          estadoClassif = 'Abaixo do peso'
+        else if(estadoImc > 18.5 && estadoImc < 25)
+          estadoClassif = 'Peso Normal'
+        else if(estadoImc >= 25 && estadoImc < 30)
+          estadoClassif = 'Sobrepeso'
+        else if(estadoImc >= 30 && estadoImc < 35)
+          estadoClassif = 'Obesidade Grau I'
+        else if(estadoImc >= 35 && estadoImc < 40)
+          estadoClassif = 'Obesidade Grau II'
+        else if(estadoImc >= 40)
+          estadoClassif = 'Obesidade Grau III ou Mórbida'
+        else
+          estadoClassif = ''
+      // Fim do código para useEffect()
+})
+      return (
+        <>
+        <label>Cálculo do IMC</label>
+        <form>
+          { /* Substitua as chamadas de função abaixo pelos componentes correspondentes */ }
+          { inputSet('peso', 'Peso (kg):', handleInputChange)}
+          { inputSet('altura', 'Altura (m):', handleInputChange)}
+          { result(estadoImc, estadoClassif)}
+        </form>
+        </>
+      )
+    }
+
+    ReactDOM.render(<Form />, document.getElementById('root'))
+
+  </script>
+
+</body>
+
+</html>
